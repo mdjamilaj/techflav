@@ -8,10 +8,10 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h3 class="mb-0">User List</h3>
+                                <h3 class="mb-0">Role List</h3>
                             </div>
                             <div class="col text-right">
-                                <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">Create new</a>
+                                <a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary">Create new</a>
                             </div>
                         </div>
                     </div>
@@ -21,30 +21,24 @@
                             <tr>
                               <th>No</th>
                               <th>Name</th>
-                              <th>Email</th>
-                              <th>Roles</th>
                               <th width="280px">Action</th>
                             </tr>
                             </thead>
                            <tbody>
-                            @foreach ($data as $key => $user)
+                            @foreach ($data as $key => $item)
                             <tr>
                               <td>{{ ++$i }}</td>
-                              <td>{{ $user->name }}</td>
-                              <td>{{ $user->email }}</td>
+                              <td>{{ $item->name }}</td>
                               <td>
-                                @if(!empty($user->getRoleNames()))
-                                  @foreach($user->getRoleNames() as $v)
-                                     <label class="badge badge-success">{{ $v }}</label>
-                                  @endforeach
-                                @endif
-                              </td>
-                              <td>
-                                 <a class="btn btn-info btn-sm" href="{{ route('users.show',$user->id) }}">Show</a>
-                                 <a class="btn btn-primary btn-sm" href="{{ route('users.edit',$user->id) }}">Edit</a>
-                                  {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-                                      {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
-                                  {!! Form::close() !!}
+                                <a class="btn btn-info" href="{{ route('roles.show',$item->id) }}">Show</a>
+                                @can('role-edit')
+                                    <a class="btn btn-primary" href="{{ route('roles.edit',$item->id) }}">Edit</a>
+                                @endcan
+                                @can('role-delete')
+                                    {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $item->id],'style'=>'display:inline']) !!}
+                                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                    {!! Form::close() !!}
+                                @endcan
                               </td>
                             </tr>
                            @endforeach

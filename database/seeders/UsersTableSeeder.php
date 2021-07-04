@@ -1,9 +1,11 @@
 <?php
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UsersTableSeeder extends Seeder
 {
@@ -14,13 +16,18 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => 'Admin Admin',
+        $user = User::create([
+            'name' => 'Shuvo Ui', 
             'email' => 'admin@argon.com',
-            'email_verified_at' => now(),
             'password' => Hash::make('secret'),
             'created_at' => now(),
             'updated_at' => now()
         ]);
+
+        $role = Role::create(['name' => 'Super admin']);
+     
+        $permissions = Permission::pluck('id','id')->all();
+        $role->syncPermissions($permissions);
+        $user->assignRole([$role->id]);
     }
 }
