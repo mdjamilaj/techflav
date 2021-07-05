@@ -18,41 +18,45 @@
                     <div class="table-responsive">
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
-                            <tr>
-                              <th>No</th>
-                              <th>Name</th>
-                              <th>Email</th>
-                              <th>Roles</th>
-                              <th width="280px">Action</th>
-                            </tr>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Roles</th>
+                                    <th width="280px">Action</th>
+                                </tr>
                             </thead>
-                           <tbody>
-                            @foreach ($data as $key => $user)
-                            <tr>
-                              <td>{{ ++$i }}</td>
-                              <td>{{ $user->name }}</td>
-                              <td>{{ $user->email }}</td>
-                              <td>
-                                @if(!empty($user->getRoleNames()))
-                                  @foreach($user->getRoleNames() as $v)
-                                     <label class="badge badge-success">{{ $v }}</label>
-                                  @endforeach
-                                @endif
-                              </td>
-                              <td>
-                                 <a class="btn btn-info btn-sm" href="{{ route('users.show',$user->id) }}">Show</a>
-                                 <a class="btn btn-primary btn-sm" href="{{ route('users.edit',$user->id) }}">Edit</a>
-                                  {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-                                      {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
-                                  {!! Form::close() !!}
-                              </td>
-                            </tr>
-                           @endforeach
-                           </tbody>
-                           </table>
-                           
-                           
-                           {!! $data->render() !!}
+                            <tbody>
+                                @foreach ($data as $key => $user)
+                                    <tr>
+                                        <td>{{ ++$i }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>
+                                            @if (!empty($user->getRoleNames()))
+                                                @foreach ($user->getRoleNames() as $v)
+                                                    <label class="badge badge-success">{{ $v }}</label>
+                                                @endforeach
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-info btn-sm"
+                                                href="{{ route('users.show', $user->id) }}">Show</a>
+                                            <a class="btn btn-primary btn-sm"
+                                                href="{{ route('users.edit', $user->id) }}">Edit</a>
+                                            {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
+                                            {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+                                            {!! Form::close() !!}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        @if ($data->hasPages())
+                            <hr class="my-3">
+                            {!! $data->render() !!}
+                        @endif
                     </div>
                 </div>
             </div>

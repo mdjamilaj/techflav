@@ -106,18 +106,13 @@
                                     {{ __('Roles') }}
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('roles.index') }}">
-                                    {{ __('Roles') }}
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.index') }}">
-                        <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
+                    <a class="nav-link" href="{{ route('products.index') }}">
+                        <i class="fas fa-product"></i> Product List
                     </a>
                 </li>
             </ul>

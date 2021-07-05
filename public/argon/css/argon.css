@@ -17572,6 +17572,10 @@ a.btn-icon-only
 {
     position: relative;
 }
+nav{
+    display: flex;
+    justify-content: center;
+}
 .main-content .navbar-top
 {
     z-index: 1;
