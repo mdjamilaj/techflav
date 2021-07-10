@@ -13,10 +13,10 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h3 class="mb-0">Product List</h3>
+                                <h3 class="mb-0">Product type List</h3>
                             </div>
                             <div class="col text-right">
-                                <a href="{{ route('products.create') }}" class="btn btn-sm btn-primary">Create new</a>
+                                <a href="{{ route('productTypes.create') }}" class="btn btn-sm btn-primary">Create new</a>
                             </div>
                         </div>
                     </div>
@@ -25,10 +25,6 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>Name</th>
-                                    <th>Price Type</th>
-                                    <th>Price</th>
-                                    <th>Discount price</th>
-                                    <th style="width: 40px;">Img</th>
                                     <th>Details</th>
                                     <th>Action</th>
                                 </tr>
@@ -37,28 +33,16 @@
                                 @foreach ($data as $key => $item)
                                     <tr>
                                         <td>{{ $item->name }}</td>
-                                        <td>{{ $item->product_price_type }}</td>
-                                        <td>{{ $item->price }}</td>
-                                        <td>{{ $item->discount_price }}</td>
-                                        <td style="max-width: 376px !important;overflow: hidden;">
-                                            <ol>
-                                                @foreach ($item->getMedia("product-gallery") as $val)
-                                                    <li><a href="{{ $val->getFullUrl() }}">{{ $val->getFullUrl() }}</a></li>
-                                                @endforeach
-                                            </ol>
-                                        </td>
                                         <td><?php
                                             $details_without_tags = strip_tags($item->details);
-                                            $details = substr($details_without_tags, 0, 40);
+                                            $details = substr($details_without_tags, 0, 70);
                                             echo $details;
                                             ?></td>
                                         <td>
-                                            <form action="{{ route('products.destroy', $item->id) }}" method="POST">
-                                                <a class="btn btn-info btn-sm"
-                                                    href="{{ route('products.show', $item->id) }}">Show</a>
+                                            <form action="{{ route('productTypes.destroy', $item->id) }}" method="POST">
                                                 @can('product-edit')
                                                     <a class="btn btn-primary btn-sm"
-                                                        href="{{ route('products.edit', $item->id) }}">Edit</a>
+                                                        href="{{ route('productTypes.edit', $item->id) }}">Edit</a>
                                                 @endcan
 
 

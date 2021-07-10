@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\ProductType;
 use File;
 
 class ProductController extends Controller
@@ -39,7 +40,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $product_types = ProductType::all();
+        return view('products.create', compact('product_types'));
     }
 
     /**
@@ -53,13 +55,20 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'details' => 'required',
+            'product_price_type' => 'required',
+            'product_type_id' => 'required',
             'licence_key' => 'required|string|unique:products,licence_key,NULL,id,deleted_at,NULL',
-            'price' => 'required|numeric',
-            'discount_price' => 'nullable|numeric',
             'cover_photo' => 'required',
             'cover_photo.*' => 'mimes:jpeg,jpg,png,webp',
             'product' => 'required|mimes:zip',
         ]);
+
+        if ($request->product_price_type == 'paid') {
+            $request->validate([
+                'price' => 'required|numeric',
+                'discount_price' => 'nullable|numeric',
+            ]);
+        }
 
         $input = $request->all();
         unset($input['cover_photo']);
@@ -107,7 +116,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+        $data = $product;
+        $product_types = ProductType::all();
+        return view('products.edit', compact('data', 'product_types'));
     }
 
     /**
@@ -119,12 +130,34 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        request()->validate([
+        $request->validate([
             'name' => 'required',
-            'detail' => 'required',
+            'details' => 'required',
+            'licence_key' => 'required|string|unique:products,licence_key,NULL,id,deleted_at,NULL'.$product->id,
+            'price' => 'required|numeric',
+            'discount_price' => 'nullable|numeric',
+            'cover_photo.*' => 'mimes:jpeg,jpg,png,webp',
+            'product' => 'mimes:zip',
         ]);
 
-        $product->update($request->all());
+        $input = $request->all();
+        unset($input['cover_photo']);
+        unset($input['product']);
+        unset($input['product_and_documentation']);
+        $product->update($input);
+        if ($request->hasFile('cover_photo')) {
+            foreach ($request->file('cover_photo') as $attachment) {
+                $product->addMedia($attachment)->toMediaCollection("product-gallery");
+            }
+        }
+
+        if ($request->hasFile('product')) {
+            $product->addMedia($request->file('product'))->toMediaCollection("product-download");
+        }
+
+        if ($request->hasFile('product_and_documentation')) {
+            $product->addMedia($request->file('product_and_documentation'))->toMediaCollection("product-and-documentation-download");
+        }
 
         return redirect()->route('products.index')
             ->with('success', 'Product updated successfully');
