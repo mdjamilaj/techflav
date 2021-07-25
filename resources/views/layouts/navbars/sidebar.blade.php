@@ -89,7 +89,7 @@
                         {{ __('Admin management') }}
                     </a>
 
-                    <div class="collapse show" id="navbar-examples">
+                    <div class="collapse" id="navbar-examples">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('profile.edit') }}">
@@ -112,7 +112,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('products.index') }}">
-                        <i class="fas fa-product"></i> Product List
+                        <i class="fab fa-product-hunt text-primary"></i> Product List
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('productTypes.index') }}">
+                        <i class="fab fa-product-hunt text-primary"></i> Product Types
                     </a>
                 </li>
             </ul>

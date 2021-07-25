@@ -8,21 +8,23 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h3 class="mb-0">User Edit</h3>
+                                <h3 class="mb-0">Create Edit Role</h3>
                             </div>
                             <div class="col text-right">
-                                <a href="{{ route('user.index') }}" class="btn btn-sm btn-primary">View List</a>
+                                <a href="{{ route('roles.index') }}" class="btn btn-sm btn-primary">View List</a>
                             </div>
                         </div>
                     </div>
                     <hr class="my-0">
                     <div class="p-4">
-                        {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
+                        {!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Name:</label>
-                                    <input placeholder="Name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') ? old('name') : $user->name }}" type="text">
+                                    <input placeholder="Name"
+                                        class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
+                                        value="{{ old('name') ? old('name') : $role->name }}" type="text">
                                 </div>
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -30,43 +32,38 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
-                                <div class="form-group mb-1">
-                                    <label>Email:</label>
-                                    <input placeholder="Email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') ? old('email') : $user->email }}" type="email">
-                                </div>
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
-                                <div class="form-group mb-1">
-                                    <label>Password:</label>
-                                    <input placeholder="Password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" value="{{ old('password') }}" type="password">
-                                </div>
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
-                                <div class="form-group mb-1">
-                                    <label>Confirm Password:</label>
-                                    <input placeholder="confirm password" class="form-control{{ $errors->has('confirm_password') ? ' is-invalid' : '' }}" name="confirm_password" value="{{ old('confirm_password') }}" type="password">
-                                </div>
-                                @if ($errors->has('confirm_password'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('confirm_password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 mb-3">
                                 <div class="form-group mb-1">
-                                    <label>Role:</label>
-                                    {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
+                                    <label>Select Permission:</label><br>
+                                <?php $name = ''; ?>
+                                    @foreach ($permission as $value)
+                                    <?php
+
+
+                                            $names = explode('-', $value->name);
+                                            if($names[0] != $name)
+                                            { ?>
+                                               <h2><?php echo ucwords($names[0]) ?></h2>
+
+                                            <?php  }  ?>
+
+
+                                            {{-- var_dump($names);
+                                            ?> --}}
+                                        <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, ['class' => 'name']) }}
+                                            <?php
+
+                                            // $names = explode('-', $value->name);
+                                            // $group = [];
+
+
+                                            // var_dump($group);
+                                            echo ucwords($names[0])." ";
+                                            echo ucwords($names[1]);
+                                            $name = $names[0];
+                                            ?> </label>
+                                        <br />
+                                    @endforeach
                                 </div>
                                 @if ($errors->has('roles'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -75,7 +72,7 @@
                                 @endif
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                         {!! Form::close() !!}

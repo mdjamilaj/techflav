@@ -21,8 +21,10 @@ class CreateProductsTable extends Migration
             $table->bigInteger('product_id')->nullable();
             $table->bigInteger('product_and_documentation_id')->nullable();
             $table->text('licence_key');
-            $table->integer('price');
+            $table->enum('product_price_type', ['free', 'paid'])->default('free');
+            $table->integer('price')->nullable();
             $table->integer('discount_price')->nullable();
+            $table->integer('product_type_id')->notNullable();
             $table->timestamps();
             $table->softDeletes();
         });

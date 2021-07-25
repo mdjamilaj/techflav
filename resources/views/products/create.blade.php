@@ -31,7 +31,41 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Product Type:</label>
+                                    <select placeholder="product_type_id"
+                                    class="form-control{{ $errors->has('product_type_id') ? ' is-invalid' : '' }}" name="product_type_id"
+                                    value="{{ old('product_type_id') }}" type="text">
+                                    <option value="">Select Once</option>
+                                    @foreach ($product_types as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                </div>
+                                @if ($errors->has('product_type_id'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('product_type_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Product Price Type:</label>
+                                    <select onchange="changeStyle(this.value)" placeholder="product_type"
+                                    class="form-control{{ $errors->has('product_price_type') ? ' is-invalid' : '' }}" name="product_price_type"
+                                    value="{{ old('product_price_type') }}" type="text">
+                                    <option value="free">Free</option>
+                                    <option value="paid" selected>Paid</option>
+                                </select>
+                                </div>
+                                @if ($errors->has('product_price_type'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('product_price_type') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="name_parent">
                                 <div class="form-group mb-1">
                                     <label>Name:</label>
                                     <input placeholder="Name"
@@ -44,7 +78,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="licence_key_parent">
                                 <div class="form-group mb-1">
                                     <label>Licence key:</label>
                                     <input placeholder="Licence key "
@@ -57,7 +91,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="price_parent">
                                 <div class="form-group mb-1">
                                     <label>Price:</label>
                                     <input placeholder="Price "
@@ -70,7 +104,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="discount_price_parent">
                                 <div class="form-group mb-1">
                                     <label>Discount price:</label>
                                     <input placeholder="Discount price "
@@ -83,6 +117,7 @@
                                     </span>
                                 @endif
                             </div>
+
                             <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Cover photo <sub>(Gallery multiple)</sub> :</label>
@@ -143,6 +178,24 @@
             editor.showNotification('This field is required.', 'warning');
             evt.cancel();
         });
+    </script>
+
+    <script>
+        function changeStyle(val) {
+            if (val == 'free') {
+                $("#discount_price_parent").addClass("d-none");
+                $("#price_parent").addClass("d-none");
+                $("#licence_key_parent").addClass("col-md-4");
+                $("#name_parent").addClass("col-md-4");
+            }else{
+                $("#discount_price_parent").removeClass("d-none");
+                $("#price_parent").removeClass("d-none");
+                $("#licence_key_parent").addClass("col-md-2");
+                $("#name_parent").addClass("col-md-2");
+                $("#licence_key_parent").removeClass("col-md-4");
+                $("#name_parent").removeClass("col-md-4");
+            }
+        }
     </script>
 
 @endsection

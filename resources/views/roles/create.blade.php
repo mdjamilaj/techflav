@@ -34,10 +34,34 @@
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 mb-3">
                                 <div class="form-group mb-1">
-                                    <label>Role:</label>
+                                    <label>Select Permission:</label><br>
+                                <?php $name = ''; ?>
                                     @foreach ($permission as $value)
+                                    <?php
+
+
+                                            $names = explode('-', $value->name);
+                                            if($names[0] != $name)
+                                            { ?>
+                                               <h2><?php echo ucwords($names[0]) ?></h2>
+
+                                            <?php  }  ?>
+
+
+                                            {{-- var_dump($names);
+                                            ?> --}}
                                         <label>{{ Form::checkbox('permission[]', $value->id, false, ['class' => 'name']) }}
-                                            {{ $value->name }}</label>
+                                            <?php
+
+                                            // $names = explode('-', $value->name);
+                                            // $group = [];
+
+
+                                            // var_dump($group);
+                                            echo ucwords($names[0])." ";
+                                            echo ucwords($names[1]);
+                                            $name = $names[0];
+                                            ?> </label>
                                         <br />
                                     @endforeach
                                 </div>
