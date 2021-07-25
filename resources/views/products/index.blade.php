@@ -22,7 +22,8 @@
                                     <th>Name</th>
                                     <th>Price</th>
                                     <th>Discount price</th>
-                                    <th style="width: 40px;">Img</th>
+                                    <th style="width: 40px;">Gallery</th>
+                                    <th style="width: 40px;">Product</th>
                                     <th>Details</th>
                                     <th>Action</th>
                                 </tr>
@@ -33,6 +34,13 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->price }}</td>
                                         <td>{{ $item->discount_price }}</td>
+                                        <td style="max-width: 376px !important;overflow: hidden;">
+                                            <ol>
+                                                @foreach ($item->getMedia("product-gallery") as $val)
+                                                    <li><a href="{{ $val->getFullUrl() }}">{{ $val->getFullUrl() }}</a></li>
+                                                @endforeach
+                                            </ol>
+                                        </td>
                                         <td style="max-width: 376px !important;overflow: hidden;">
                                             <ol>
                                                 @foreach ($item->getMedia("product-gallery") as $val)
