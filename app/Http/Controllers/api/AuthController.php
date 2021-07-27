@@ -4,10 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -52,25 +51,27 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|string|min:8',
+            'device' => 'required',
         ]);
 
         try {
             $customer = Customer::where('email', $request->email)->first();
 
             if (!$customer || !Hash::check($request->password, $customer->password)) {
-                return response()->json([
-                    'email' => 'The provided credentials are incorrect.'
-                ], 401);
+                throw ValidationException::withMessages([
+                    'message' => 'The provided credentials are incorrect.',
+                ]);
             }
-            $token = $customer->createToken("Personal Access Token")->plainTextToken;
+            $token = $customer->createToken($request->device)->plainTextToken;
             $data = [
+                'user' => $customer,
                 'access_token' => $token,
                 'token_type' => 'Bearer',
             ];
-            return $this->sendResponse($data, "Register successful", 200);
+            return $this->sendResponse($data, "Login successful", 200);
         } catch (\Throwable $th) {
             return $this->sendError($th->getMessage(), [], 500);
         }
@@ -85,6 +86,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:customers',
             'password' => 'required|string|min:8|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:8',
+            'device' => 'device',
         ]);
         try {
             $input = $request->all();
@@ -92,7 +94,7 @@ class AuthController extends Controller
             $input['product'] = Hash::make($validatedData['password']);
             $customer = Customer::create($input);
 
-            $token = $customer->createToken('auth_token')->plainTextToken;
+            $token = $customer->createToken($request->device)->plainTextToken;
             $data = [
                 'access_token' => $token,
                 'token_type' => 'Bearer',
