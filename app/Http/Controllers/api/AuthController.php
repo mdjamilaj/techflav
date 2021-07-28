@@ -7,9 +7,18 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Services\CommonService;
+use Illuminate\Support\Facades\Cache;
 
 class AuthController extends Controller
 {
+    public function __construct(
+        CommonService $commonService
+    ) {
+        $this->commonService = $commonService;
+    }
+
     // public function login(Request $request)
     // {
     //     $request->validate([
@@ -61,11 +70,11 @@ class AuthController extends Controller
             $customer = Customer::where('email', $request->email)->first();
 
             if (!$customer || !Hash::check($request->password, $customer->password)) {
-                throw ValidationException::withMessages([
+                return $this->sendError('The given data was invalid.', [
                     'message' => 'The provided credentials are incorrect.',
-                ]);
+                ], 500);
             }
-            $token = $customer->createToken($request->device)->plainTextToken;
+            $token = $customer->createToken($request->device . $customer->id)->plainTextToken;
             $data = [
                 'user' => $customer,
                 'access_token' => $token,
@@ -80,24 +89,29 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required|min:3|string|max:255',
-            'username' => 'required|min:6|without_spaces|string|max:255|unique:customers|regex:/(^([a-zA-Z]+)(\d+)?$)/u',
-            'email' => 'required|string|email|max:255|unique:customers',
+            'username' => 'required|min:6|string|max:255|regex:/(^([a-zA-Z]+)(\d+)?$)/u|unique:customers,username,id',
+            'email' => 'required|string|email|max:255|unique:customers,email,id',
             'password' => 'required|string|min:8|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:8',
-            'device' => 'device',
+            'device' => 'required',
+            'agree' => 'required|in:1',
         ]);
         try {
             $input = $request->all();
             unset($input['password']);
-            $input['product'] = Hash::make($validatedData['password']);
+            unset($input['password_confirmation']);
+            unset($input['device']);
+            unset($input['agree']);
+            $input['password'] = Hash::make($request->password);
             $customer = Customer::create($input);
 
-            $token = $customer->createToken($request->device)->plainTextToken;
+            $token = $customer->createToken($request->device . $customer->id)->plainTextToken;
             $data = [
                 'access_token' => $token,
                 'token_type' => 'Bearer',
+                'user' => $customer,
             ];
             return $this->sendResponse($data, "Register successful", 200);
         } catch (\Throwable $th) {
@@ -108,10 +122,60 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         try {
-            $request->user()->tokens()->delete();
+            $request->user()->tokens()->where('id', $request->device . $request->user()->id)->delete();
             return $this->sendResponse([], "logout successful", 200);
         } catch (\Throwable $th) {
             return $this->sendError($th->getMessage(), [], 500);
         }
     }
+
+    public function forgetMailSend(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email|max:255|exists:customers,email',
+            'question' => 'required',
+            'answer' => 'required',
+            'keep_me' => 'required|in:1',
+            'i_understand' => 'required|in:1',
+        ]);
+        $customer = Customer::where('email', '=', $request->email)->firstOrFail();
+        $code = $this->commonService->generateOtpCode($customer, 1440, 'froget_password_otp_'); //1 day validity
+        $data = [
+            'customer'=> $customer, 
+            'code'=> $code, 
+        ];
+        Mail::to($request->email)->send(new \App\Mail\ForgetOtpEmail($data));
+        return $this->sendResponse([], "Password reset mail send successful", 200);
+    }
+
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email|max:255|exists:customers,email',
+            'password' => 'required|string|min:8|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:8',
+            'code' => 'required|min:6',
+        ]);
+        $customer = Customer::where('email', '=', $request->email)->firstOrFail();
+
+        $code = Cache::get('froget_password_otp_' . $customer->id);
+
+        if (!$code) {
+            return $this->sendError("OTP code invalid or expired", [], 422);
+        }
+        if (intval($request->code) != $code) {
+            return $this->sendError("The OTP doesn't match our records.", [], 422);
+        }
+
+        try {
+            $customer->password = Hash::make($request->password);
+            $customer->save();
+            return $this->sendResponse([], "Password reset successfully", 200);
+        } catch (\Throwable $th) {
+            return $this->sendError($th->getMessage(), [], 500);
+        }
+
+    }
+
 }

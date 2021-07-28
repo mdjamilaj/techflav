@@ -16,6 +16,7 @@ class CustomersTableSeeder extends Seeder
     {
         $customer = Customer::create([
             'name' => 'Muhammad Jamil',
+            'username' => 'mdjamilaj',
             'email' => 'customer@gmail.com',
             'password' => bcrypt('password'),
             'created_at' => now(),

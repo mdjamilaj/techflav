@@ -15,7 +15,9 @@ use App\Http\Controllers\ProductTypeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/email', function () {
+    return view('emails.forgetOtpSend');
+});
 Route::get('/', function () {
     return view('welcome');
 });

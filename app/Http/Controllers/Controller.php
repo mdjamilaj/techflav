@@ -53,4 +53,20 @@ class Controller extends BaseController
 
         return new JsonResponse($response, $code);
     }
+
+
+    public function sendCustomError($error, $errorMessages = [], $code = 500)
+    {
+        $response = [
+            'success' => false,
+            'message' => $error,
+        ];
+        if (!empty($errorMessages)) {
+            $response['errors'] = $errorMessages;
+        }
+        if (empty($error)) {
+            unset($response['message']);
+        }
+        return new JsonResponse($response, $code);
+    }
 }
