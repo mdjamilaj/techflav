@@ -21,10 +21,19 @@ class Product extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        //additional
         $this->addMediaCollection("product-gallery");
         $this->addMediaCollection("product-download")->singleFile();
         $this->addMediaCollection("product-and-documentation-download")->singleFile();
         // ->useDisk('s3')
+    }
+
+    public function product_type()
+    {
+        return $this->belongsTo(ProductType::class, 'product_type_id', 'id');
+    }
+
+    public function favourite()
+    {
+        return $this->belongsTo(ProductFavourite::class);
     }
 }

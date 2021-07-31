@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\CommonController;
 
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -16,4 +17,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return $request->user();
     });
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/product/filter', [CommonController::class, 'productFilter'])->name('product_filter');
+    Route::get('/product/details/{id}', [CommonController::class, 'productDetails'])->name('product_details');
+    Route::get('/product/favourite/{id}', [CommonController::class, 'productfavourite'])->name('product_favourite');
+    Route::post('/product/favorite/filter', [CommonController::class, 'productFavoriteFilter'])->name('product_favorite_filter');
 });
