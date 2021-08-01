@@ -36,4 +36,9 @@ class Product extends Model implements HasMedia
     {
         return $this->belongsTo(ProductFavourite::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id', 'id');
+    }
 }

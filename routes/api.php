@@ -21,4 +21,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/product/details/{id}', [CommonController::class, 'productDetails'])->name('product_details');
     Route::get('/product/favourite/{id}', [CommonController::class, 'productfavourite'])->name('product_favourite');
     Route::post('/product/favorite/filter', [CommonController::class, 'productFavoriteFilter'])->name('product_favorite_filter');
+    Route::post('/product/review/filter', [CommonController::class, 'productReviewFilter'])->name('product_review_filter');
+    Route::post('/product/review', [CommonController::class, 'productReview'])->name('product_review');
+    
 });

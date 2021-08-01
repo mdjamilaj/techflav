@@ -5,6 +5,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\ReviewController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,4 +44,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
     Route::resource('productTypes', ProductTypeController::class);
+
+
+	/***********  Review ************/
+	Route::get('review/index/{product_id}', [ReviewController::class, 'index'])->name('review.index');
+	Route::get('review/create/{product_id}', [ReviewController::class, 'create'])->name('review.create');
+	Route::post('review/store/{product_id}', [ReviewController::class, 'store'])->name('review.store');
+	Route::get('review/{id}/edit/{product_id}', [ReviewController::class, 'edit'])->name('review.edit');
+	Route::get('review/{id}/show/{product_id}', [ReviewController::class, 'show'])->name('review.show');
+	Route::post('review/{id}/update/{product_id}', [ReviewController::class, 'update'])->name('review.update');
+	Route::delete('review/{id}/destroy/{product_id}', [ReviewController::class, 'destroy'])->name('review.destroy');
 });

@@ -8,10 +8,11 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h3 class="mb-0">User View</h3>
+                                <h3 class="mb-0">{{ $product->name }}</h3>
                             </div>
                             <div class="col text-right">
-                                <a href="{{ route('user.index') }}" class="btn btn-sm btn-primary">View List</a>
+                                <a href="{{ route('review.create', $product->id) }}" class="btn btn-sm btn-success">Add review</a>
+                                <a href="{{ route('products.index') }}" class="btn btn-sm btn-primary">View List</a>
                             </div>
                         </div>
                     </div>
@@ -19,25 +20,37 @@
                     <div class="p-4">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12">
-                                <div class="form-group">
-                                    <strong>Name:</strong>
-                                    {{ $user->name }}
+                                <div class="row mb-4">
+                                    @foreach ($product->getMedia('product-gallery') as $val)
+                                        <div class="col-xs-12 col-sm-4 col-md-3">
+                                            <img style="border-radius: 10px;" width="100%" height="100%" src="{{ $val->getFullUrl() }}" alt="">
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
+                                <h2>Product download</h2>
                                 <div class="form-group">
-                                    <strong>Email:</strong>
-                                    {{ $user->email }}
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                <div class="form-group">
-                                    <strong>Roles:</strong>
-                                    @if (!empty($user->getRoleNames()))
-                                        @foreach ($user->getRoleNames() as $v)
-                                            <label class="badge badge-success">{{ $v }}</label>
+                                    <ol>
+                                        @foreach ($product->getMedia("product-download") as $val)
+                                            <li><a href="{{ $val->getFullUrl() }}">{{ $val->getFullUrl() }}</a></li>
                                         @endforeach
-                                    @endif
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <h2>Product download and documentaion</h2>
+                                <div class="form-group">
+                                    <ol>
+                                        @foreach ($product->getMedia("product-and-documentation-download") as $val)
+                                            <li><a href="{{ $val->getFullUrl() }}">{{ $val->getFullUrl() }}</a></li>
+                                        @endforeach
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    {!! $product->details !!}
                                 </div>
                             </div>
                         </div>
