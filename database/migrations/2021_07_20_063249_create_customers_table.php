@@ -20,6 +20,10 @@ class CreateCustomersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('country_id')->nullable();
+            $table->integer('state_id')->nullable();
+            $table->integer('phone_code_id')->nullable();
+            $table->integer('phone')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
