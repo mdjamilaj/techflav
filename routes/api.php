@@ -5,11 +5,20 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\CommonController;
 use App\Http\Controllers\api\SiteController;
+use App\Http\Controllers\api\SocialLoginController;
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/forget-mail-send', [AuthController::class, 'forgetMailSend'])->name('forget-mail-send');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset-password');
+
+Route::group(['prefix' => '/auth', ['middleware' => 'throttle:20,5']], function() {
+    // Route::post('/register', [SocialLoginController::class, 'register']);
+    // Route::post('/login', [SocialLoginController::class, 'login']);
+
+    Route::get('/login/{service}', [SocialLoginController::class, 'redirect']);
+    Route::get('/login/{service}/callback', [SocialLoginController::class, 'callback']);
+});
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

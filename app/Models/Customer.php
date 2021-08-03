@@ -58,4 +58,14 @@ class Customer extends Authenticatable implements HasMedia
     {
         return $this->belongsTo(Country::class, 'phone_code_id', 'id');
     }
+
+    public function social()
+    {
+        return $this->hasMany(UserSocial::class, 'customer_id', 'id');
+    }
+
+    public function hasSocialLinked($service)
+    {
+        return (bool) $this->social->where('service', $service)->count();
+    }
 }
