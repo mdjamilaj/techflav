@@ -24,6 +24,7 @@ class CreateCustomersTable extends Migration
             $table->integer('state_id')->nullable();
             $table->integer('phone_code_id')->nullable();
             $table->integer('phone')->nullable();
+            $table->timestamp('password_change_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -38,6 +38,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/product/review', [CommonController::class, 'productReview'])->name('product_review');
     /*****   End product route   ****/  
 
+    /******    Auth    ******/  
+    Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change-password');
+    /******    End auth    ******/  
 });
 
 /*****   Site common route   ****/ 

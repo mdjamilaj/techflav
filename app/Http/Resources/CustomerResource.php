@@ -43,6 +43,7 @@ class CustomerResource extends JsonResource
             'phone'                   => $this->phone,
             'photo'                   => CommonFileResource::make($this->getFirstMedia('customer-photo')),
             'phone_code_and_phone'    => $phone_code_and_phone,
+            'password_change_at'      => $this->password_change_at,
         ];
     }
 }

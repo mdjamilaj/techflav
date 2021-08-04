@@ -201,8 +201,32 @@ class AuthController extends Controller
 
         try {
             $customer->password = Hash::make($request->password);
+            $customer->password_change_at = date('Y-m-d H:i:s');
             $customer->save();
-            return $this->sendResponse([], "Password reset successfully", 200);
+            return $this->sendResponse($customer, "Password reset successfully", 200);
+        } catch (\Throwable $th) {
+            return $this->sendError($th->getMessage(), [], 500);
+        }
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string|min:8|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:8',
+            'old_password' => 'required|string|min:8',
+        ]);
+        $customer = $request->user();
+        if (!Hash::check($request->old_password, $customer->password)) {
+            return $this->sendError('The given data was invalid.', [
+                'message' => 'The provided credentials are incorrect.',
+            ], 422);
+        }
+        try {
+            $customer->password = Hash::make($request->password);
+            $customer->password_change_at = date('Y-m-d H:i:s');
+            $customer->save();
+            return CustomerResource::make($customer->load(['state', 'country', 'phone_code']))->success(true)->message("Password change successfully");
         } catch (\Throwable $th) {
             return $this->sendError($th->getMessage(), [], 500);
         }

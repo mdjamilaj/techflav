@@ -30,11 +30,13 @@ class SocialLoginController extends Controller
             return redirect(env('CLIENT_BASE_URL') . '/social-callback?error=Unable to login using ' . $service . '. Please try again' . '&origin=login');
         }
 
-        if ((env('RETRIEVE_UNVERIFIED_SOCIAL_EMAIL') == 0) && ($service != 'google')) {
-            $email = $serviceUser->getId() . '@' . $service . '.local';
-        } else {
+        // if ((env('RETRIEVE_UNVERIFIED_SOCIAL_EMAIL') == 0) && ($service != 'google')) {
+        //     $email = $serviceUser->getId() . '@' . $service . '.local';
+        // } elseif ($service == 'github') {
+        //     $email = $serviceUser->email;
+        // } else {
             $email = $serviceUser->getEmail();
-        }
+        // }
 
         $customer = $this->getExistingUser($serviceUser, $email, $service);
         $newUser = false;
@@ -50,7 +52,7 @@ class SocialLoginController extends Controller
 
         if ($this->needsToCreateSocial($customer, $service)) {
             UserSocial::create([
-                'user_id' => $customer->id,
+                'customer_id' => $customer->id,
                 'social_id' => $serviceUser->getId(),
                 'service' => $service
             ]);
@@ -78,10 +80,10 @@ class SocialLoginController extends Controller
 
     public function getExistingUser($serviceUser, $email, $service)
     {
-        if ((env('RETRIEVE_UNVERIFIED_SOCIAL_EMAIL') == 0) && ($service != 'google')) {
-            $userSocial = UserSocial::where('social_id', $serviceUser->getId())->first();
-            return $userSocial ? $userSocial->user : null;
-        }
+        // if ((env('RETRIEVE_UNVERIFIED_SOCIAL_EMAIL') == 0) && ($service != 'google')) {
+        //     $userSocial = UserSocial::where('social_id', $serviceUser->getId())->first();
+        //     return $userSocial ? $userSocial->user : null;
+        // }
         return Customer::where('email', $email)->orWhereHas('social', function ($q) use ($serviceUser, $service) {
             $q->where('social_id', $serviceUser->getId())->where('service', $service);
         })->first();
