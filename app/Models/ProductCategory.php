@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class ProductType extends Model implements HasMedia
+class ProductCategory extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia;
     protected $guarded = [];
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection("producttype-photo")->singleFile();
+        $this->addMediaCollection("productcategory-photo")->singleFile();
     }
 }

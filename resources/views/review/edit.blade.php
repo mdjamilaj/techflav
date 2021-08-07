@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', "Review edit")
 @section('content')
     <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
     <div class="container-fluid mt-4">

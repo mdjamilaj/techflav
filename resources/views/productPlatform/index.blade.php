@@ -13,10 +13,10 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h3 class="mb-0">Product type List</h3>
+                                <h3 class="mb-0">Product platform List</h3>
                             </div>
                             <div class="col text-right">
-                                <a href="{{ route('productTypes.create') }}" class="btn btn-sm btn-primary">Create new</a>
+                                <a href="{{ route('productPlatform.create') }}" class="btn btn-sm btn-primary">Create new</a>
                             </div>
                         </div>
                     </div>
@@ -25,7 +25,6 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>Name</th>
-                                    <th>Photo</th>
                                     <th>Details</th>
                                     <th>Action</th>
                                 </tr>
@@ -34,32 +33,22 @@
                                 @foreach ($data as $key => $item)
                                     <tr>
                                         <td>{{ $item->name }}</td>
-                                        <td>
-                                            <span
-                                                class="avatar avatar-sm text-dark font-weight-bold rounded-circle">
-                                                @if ($item->getFirstMedia('producttype-photo'))
-                                                <img  src="{{ $item->getFirstMedia('producttype-photo')->getUrl() }}" alt="">
-                                                    @else
-                                                    {{ $item->name[0] }}
-                                                @endif
-                                            </span>
-                                        </td>
                                         <td><?php
                                             $details_without_tags = strip_tags($item->details);
                                             $details = substr($details_without_tags, 0, 70);
                                             echo $details;
                                             ?></td>
                                         <td>
-                                            <form action="{{ route('productTypes.destroy', $item->id) }}" method="POST">
-                                                @can('productType-edit')
+                                            <form action="{{ route('productPlatform.destroy', $item->id) }}" method="POST">
+                                                @can('productPlatform-edit')
                                                     <a class="btn btn-primary btn-sm"
-                                                        href="{{ route('productTypes.edit', $item->id) }}">Edit</a>
+                                                        href="{{ route('productPlatform.edit', $item->id) }}">Edit</a>
                                                 @endcan
 
 
                                                 @csrf
                                                 @method('DELETE')
-                                                @can('productType-delete')
+                                                @can('productPlatform-delete')
                                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                                 @endcan
                                             </form>

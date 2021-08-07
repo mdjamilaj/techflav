@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', "Add new admin")
 @section('content')
     <div class="container-fluid mt-4">
         <div class="row">
@@ -17,7 +17,7 @@
                     </div>
                     <hr class="my-0">
                     <div class="p-4">
-                        {!! Form::open(['route' => 'users.store', 'method' => 'POST']) !!}
+                        {!! Form::open(['route' => 'users.store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
                                 <div class="form-group mb-1">
@@ -41,7 +41,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Password:</label>
                                     <input placeholder="Password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" value="{{ old('password') }}" type="password">
@@ -52,14 +52,25 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3">
                                 <div class="form-group mb-1">
-                                    <label>Confirm Password:</label>
+                                    <label>Confirm Pass:</label>
                                     <input placeholder="confirm password" class="form-control{{ $errors->has('confirm_password') ? ' is-invalid' : '' }}" name="confirm_password" value="{{ old('confirm_password') }}" type="password">
                                 </div>
                                 @if ($errors->has('confirm_password'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                         <strong>{{ $errors->first('confirm_password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Profile:</label>
+                                    <input placeholder="Profile" class="form-control{{ $errors->has('profile') ? ' is-invalid' : '' }}" name="profile" value="{{ old('profile') }}" type="file">
+                                </div>
+                                @if ($errors->has('profile'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('profile') }}</strong>
                                     </span>
                                 @endif
                             </div>

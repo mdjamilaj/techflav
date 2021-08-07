@@ -32,6 +32,16 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(ProductType::class, 'product_type_id', 'id');
     }
 
+    public function product_category()
+    {
+        return $this->belongsTo(ProductCategory::class, 'product_category_id', 'id');
+    }
+
+    public function product_platform()
+    {
+        return $this->belongsTo(ProductPlatform::class, 'product_platform_id', 'id');
+    }
+
     public function favourite()
     {
         return $this->belongsTo(ProductFavourite::class);

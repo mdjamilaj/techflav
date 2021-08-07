@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', "Add new role")
 @section('content')
     <div class="container-fluid mt-4">
         <div class="row">

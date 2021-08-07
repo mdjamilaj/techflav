@@ -8,17 +8,17 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
-                                    <span class="h2 font-weight-bold mb-0">350,897</span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Customer</h5>
+                                    <span class="h2 font-weight-bold mb-0">{{ $data['total_customer'] }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                        <i class="fas fa-chart-bar"></i>
+                                        <i class="fas fa-users"></i>
                                     </div>
                                 </div>
                             </div>
                             <p class="mt-3 mb-0 text-muted text-sm">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> {{ $data['last_month_customer'] }}</span>
                                 <span class="text-nowrap">Since last month</span>
                             </p>
                         </div>
@@ -29,17 +29,17 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
-                                    <span class="h2 font-weight-bold mb-0">2,356</span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Product</h5>
+                                    <span class="h2 font-weight-bold mb-0">{{ $data['total_product'] }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                                        <i class="fas fa-chart-pie"></i>
+                                        <i class="fas fa-boxes"></i>
                                     </div>
                                 </div>
                             </div>
                             <p class="mt-3 mb-0 text-muted text-sm">
-                                <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
+                                <span class="text-success mr-2"><i class="fas fa-arrow-down"></i> {{ $data['last_month_product'] }}</span>
                                 <span class="text-nowrap">Since last week</span>
                             </p>
                         </div>
@@ -71,17 +71,17 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
-                                    <span class="h2 font-weight-bold mb-0">49,65%</span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Review</h5>
+                                    <span class="h2 font-weight-bold mb-0">{{ $data['total_review'] }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                                        <i class="fas fa-percent"></i>
+                                        <i class="fas fa-star-half-alt"></i>
                                     </div>
                                 </div>
                             </div>
                             <p class="mt-3 mb-0 text-muted text-sm">
-                                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $data['last_month_review'] }}</span>
                                 <span class="text-nowrap">Since last month</span>
                             </p>
                         </div>

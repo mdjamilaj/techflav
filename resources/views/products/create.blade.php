@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', "Add New Prodcut")
 @section('content')
     <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
     <div class="container-fluid mt-4">
@@ -83,7 +83,7 @@
                                     <label>Licence key:</label>
                                     <input placeholder="Licence key "
                                         class="form-control{{ $errors->has('licence_key') ? ' is-invalid' : '' }}" name="licence_key"
-                                        value="{{ old('licence_key') }}" type="text">
+                                        value="{{ old('licence_key') ? old('licence_key') : $licence_key }}" type="text">
                                 </div>
                                 @if ($errors->has('licence_key'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -106,7 +106,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="discount_price_parent">
                                 <div class="form-group mb-1">
-                                    <label>Discount price:</label>
+                                    <label>Discount price: (%) <input type="checkbox" name="is_discount_percentage" checked></label>
                                     <input placeholder="Discount price "
                                         class="form-control{{ $errors->has('discount_price') ? ' is-invalid' : '' }}" name="discount_price"
                                         value="{{ old('discount_price') }}" type="number">
@@ -117,8 +117,97 @@
                                     </span>
                                 @endif
                             </div>
+                            
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Product Category:</label>
+                                    <select placeholder="product_category_id"
+                                    class="form-control{{ $errors->has('product_category_id') ? ' is-invalid' : '' }}" name="product_category_id"
+                                    value="{{ old('product_category_id') }}" type="text">
+                                    <option value="">Select Once</option>
+                                    @foreach ($product_categories as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                </div>
+                                @if ($errors->has('product_category_id'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('product_category_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
 
-                            <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Product Platform:</label>
+                                    <select placeholder="product_platform_id"
+                                    class="form-control{{ $errors->has('product_platform_id') ? ' is-invalid' : '' }}" name="product_platform_id"
+                                    value="{{ old('product_platform_id') }}" type="text">
+                                    <option value="">Select Once</option>
+                                    @foreach ($product_platforms as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                </div>
+                                @if ($errors->has('product_platform_id'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('product_platform_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>File Included:</label>
+                                    <input placeholder="File Included "
+                                        class="form-control{{ $errors->has('file_included') ? ' is-invalid' : '' }}" name="file_included"
+                                        value="{{ old('file_included') }}" type="text">
+                                </div>
+                                @if ($errors->has('file_included'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('file_included') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Is Featured:</label>
+                                    <select placeholder="product_type"
+                                    class="form-control{{ $errors->has('is_featured') ? ' is-invalid' : '' }}" name="is_featured"
+                                    value="{{ old('is') }}" type="text">
+                                    <option value="1">Yes</option>
+                                    <option value="0" selected>No</option>
+                                </select>
+                                </div>
+                                @if ($errors->has('is_featured'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('is_featured') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Is top sale:</label>
+                                    <select placeholder="is_topsale"
+                                    class="form-control{{ $errors->has('is_topsale') ? ' is-invalid' : '' }}" name="is_topsale"
+                                    value="{{ old('is') }}" type="text">
+                                    <option value="1">Yes</option>
+                                    <option value="0" selected>No</option>
+                                </select>
+                                </div>
+                                @if ($errors->has('is_topsale'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('is_topsale') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+
+
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Cover photo <sub>(Gallery multiple)</sub> :</label>
                                     <input placeholder="Cover photo "
@@ -132,7 +221,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Product:</label>
                                     <input placeholder="Product "
@@ -145,7 +234,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Product and documentation:</label>
                                     <input placeholder="Product and documentation "

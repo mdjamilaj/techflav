@@ -24,7 +24,13 @@ class CreateProductsTable extends Migration
             $table->enum('product_price_type', ['free', 'paid'])->default('free');
             $table->integer('price')->nullable();
             $table->integer('discount_price')->nullable();
+            $table->boolean('is_discount_percentage');
             $table->integer('product_type_id')->notNullable();
+            $table->integer('product_category_id')->notNullable();
+            $table->integer('product_platform_id')->notNullable();
+            $table->text('file_included')->nullable();
+            $table->boolean('is_featured');
+            $table->boolean('is_topsale');
             $table->timestamps();
             $table->softDeletes();
         });

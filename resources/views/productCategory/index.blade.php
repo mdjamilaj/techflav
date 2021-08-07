@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', "Product type list")
+@section('title', "Product category list")
 @section('content')
     <div class="container-fluid mt-4">
         <div class="row">
@@ -13,10 +13,10 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h3 class="mb-0">Product type List</h3>
+                                <h3 class="mb-0">Product category list</h3>
                             </div>
                             <div class="col text-right">
-                                <a href="{{ route('productTypes.create') }}" class="btn btn-sm btn-primary">Create new</a>
+                                <a href="{{ route('productCategory.create') }}" class="btn btn-sm btn-primary">Create new</a>
                             </div>
                         </div>
                     </div>
@@ -37,8 +37,8 @@
                                         <td>
                                             <span
                                                 class="avatar avatar-sm text-dark font-weight-bold rounded-circle">
-                                                @if ($item->getFirstMedia('producttype-photo'))
-                                                <img  src="{{ $item->getFirstMedia('producttype-photo')->getUrl() }}" alt="">
+                                                @if ($item->getFirstMedia('productcategory-photo'))
+                                                <img  src="{{ $item->getFirstMedia('productcategory-photo')->getUrl() }}" alt="">
                                                     @else
                                                     {{ $item->name[0] }}
                                                 @endif
@@ -50,16 +50,16 @@
                                             echo $details;
                                             ?></td>
                                         <td>
-                                            <form action="{{ route('productTypes.destroy', $item->id) }}" method="POST">
-                                                @can('productType-edit')
+                                            <form action="{{ route('productCategory.destroy', $item->id) }}" method="POST">
+                                                @can('productCategory-edit')
                                                     <a class="btn btn-primary btn-sm"
-                                                        href="{{ route('productTypes.edit', $item->id) }}">Edit</a>
+                                                        href="{{ route('productCategory.edit', $item->id) }}">Edit</a>
                                                 @endcan
 
 
                                                 @csrf
                                                 @method('DELETE')
-                                                @can('productType-delete')
+                                                @can('productCategory-delete')
                                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                                 @endcan
                                             </form>

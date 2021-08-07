@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', "Prodcut edit")
 @section('content')
     <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
     <div class="container-fluid mt-4">
@@ -57,8 +57,8 @@
                                     <select onchange="changeStyle(this.value)" placeholder="product_type"
                                     class="form-control{{ $errors->has('product_price_type') ? ' is-invalid' : '' }}" name="product_price_type"
                                      type="text">
-                                    <option {{ old('product_price_type') == 'free' || $data->product_price_type == 'free' ? "selected" : ''  }} value="free">Free</option>
-                                    <option {{ old('product_price_type') == 'paid' || $data->product_price_type == 'paid' ? "selected" : ''  }} value="paid" selected>Paid</option>
+                                    <option  <?php if ($data->product_price_type == 'free') echo "selected"; ?> value="free">Free</option>
+                                    <option <?php if ($data->product_price_type == 'paid') echo "selected"; ?> value="paid">Paid</option>
                                 </select>
                                 </div>
                                 @if ($errors->has('product_price_type'))
@@ -110,7 +110,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="discount_price_parent">
                                 <div class="form-group mb-1">
-                                    <label>Discount price:</label>
+                                    <label>Discount price: (%)<input type="checkbox" name="is_discount_percentage" <?php if ($data->is_discount_percentage == 1) {echo "checked";} ?> ></label></label>
                                     <input placeholder="Discount price "
                                         class="form-control{{ $errors->has('discount_price') ? ' is-invalid' : '' }}"
                                         name="discount_price"
@@ -123,7 +123,99 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
+
+
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Product Category:</label>
+                                    <select placeholder="product_category_id"
+                                    class="form-control{{ $errors->has('product_category_id') ? ' is-invalid' : '' }}" name="product_category_id"
+                                    value="{{ old('product_category_id') }}" type="text">
+                                    <option value="">Select Once</option>
+                                    @foreach ($product_categories as $item)
+                                    <option {{ $item->id == $data->id ? "selected" : ''}} value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                </div>
+                                @if ($errors->has('product_category_id'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('product_category_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Product Platform:</label>
+                                    <select placeholder="product_platform_id"
+                                    class="form-control{{ $errors->has('product_platform_id') ? ' is-invalid' : '' }}" name="product_platform_id"
+                                    value="{{ old('product_platform_id') }}" type="text">
+                                    <option value="">Select Once</option>
+                                    @foreach ($product_platforms as $item)
+                                    <option {{ $item->id == $data->id ? "selected" : ''}} value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                </div>
+                                @if ($errors->has('product_platform_id'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('product_platform_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>File Included:</label>
+                                    <input placeholder="File Included "
+                                        class="form-control{{ $errors->has('file_included') ? ' is-invalid' : '' }}" name="file_included"
+                                        value="{{ old('file_included') ? old('file_included') : $data->file_included }}" type="text">
+                                </div>
+                                @if ($errors->has('file_included'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('file_included') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Is Featured:</label>
+                                    {{ $data->is_featured == 1 }}
+                                    <select placeholder="Is Featured"
+                                    class="form-control{{ $errors->has('is_featured') ? ' is-invalid' : '' }}" name="is_featured"
+                                    value="{{ old('is_featured') }}" type="text">
+                                    <option <?php if ($data->is_featured == 1) echo "selected"; ?> value="1">Yes</option>
+                                    <option <?php if ($data->is_featured == 0) echo "selected"; ?> value="0">No</option>
+                                </select>
+                                </div>
+                                @if ($errors->has('is_featured'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('is_featured') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Is top sale:</label>
+                                    <select placeholder="Is top sale"
+                                    class="form-control{{ $errors->has('is_topsale') ? ' is-invalid' : '' }}" name="is_topsale"
+                                    value="{{ old('is_topsale') }}" type="text">
+                                    <option <?php if ($data->is_topsale == 1) echo "selected"; ?> value="1">Yes</option>
+                                    <option <?php if ($data->is_topsale == 0) echo "selected"; ?> value="0">No</option>
+                                </select>
+                                </div>
+                                @if ($errors->has('is_topsale'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('is_topsale') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+
+
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Cover photo <sub>(Gallery multiple)</sub> :</label>
                                     <input placeholder="Cover photo " multiple
@@ -138,7 +230,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Product:</label>
                                     <input placeholder="Product "
@@ -152,7 +244,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Product and documentation:</label>
                                     <input placeholder="Product and documentation "

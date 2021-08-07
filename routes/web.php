@@ -6,6 +6,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductPlatformController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,7 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
     Route::resource('productTypes', ProductTypeController::class);
-
+	Route::resource('productCategory', ProductCategoryController::class);
+	Route::resource('productPlatform', ProductPlatformController::class);
 
 	/***********  Review ************/
 	Route::get('review/index/{product_id}', [ReviewController::class, 'index'])->name('review.index');

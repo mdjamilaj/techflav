@@ -14,7 +14,7 @@
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="media align-items-center">
                         <span class="avatar avatar-sm rounded-circle">
-                        <img alt="Image placeholder" src="{{ asset('argon') }}/img/theme/team-1-800x800.jpg">
+                         <img alt="Image placeholder" src="{{ asset('argon') }}/img/theme/team-1-800x800.jpg">
                         </span>
                     </div>
                 </a>
@@ -118,6 +118,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('productTypes.index') }}">
                         <i class="fab fa-product-hunt text-primary"></i> Product Types
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('productCategory.index') }}">
+                        <i class="fas fa-bars text-primary"></i> Product Category
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('productPlatform.index') }}">
+                        <i class="fab fa-buromobelexperte text-primary"></i> Product Platform
                     </a>
                 </li>
             </ul>

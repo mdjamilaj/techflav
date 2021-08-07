@@ -23,7 +23,7 @@ class ProductTypeController extends Controller
 
     public function index()
     {
-        $data = ProductType::latest()->paginate(5);
+        $data = ProductType::with('media')->latest()->paginate(5);
         return view('productTypes.index', compact('data'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -40,8 +40,19 @@ class ProductTypeController extends Controller
             'details' => 'required',
         ]);
 
+        if($request->hasFile('photo')){
+            $request->validate([
+                'photo' => 'mimes:svg,png',
+            ]);
+        }
+
         $input = $request->all();
+        unset($input['photo']);
         $productType = ProductType::create($input);
+
+        if ($request->hasFile('photo')) {
+            $productType->addMedia($request->file('photo'))->toMediaCollection("producttype-photo");
+        }
 
         return redirect()->route('productTypes.index')
             ->with('success', 'Product type created successfully.');
@@ -60,8 +71,19 @@ class ProductTypeController extends Controller
             'details' => 'required',
         ]);
 
+        if($request->hasFile('photo')){
+            $request->validate([
+                'photo' => 'mimes:svg,png',
+            ]);
+        }
+
         $input = $request->all();
+        unset($input['photo']);
         $productType->update($input);
+
+        if ($request->hasFile('photo')) {
+            $productType->addMedia($request->file('photo'))->toMediaCollection("producttype-photo");
+        }
         return redirect()->route('productTypes.index')
             ->with('success', 'Product type updated successfully');
     }

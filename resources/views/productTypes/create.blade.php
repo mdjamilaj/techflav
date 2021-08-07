@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', "Product type create")
 @section('content')
     <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
     <div class="container-fluid mt-4">
@@ -41,6 +41,17 @@
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                         <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>Logo:</label>
+                                    <input placeholder="Photo" class="form-control{{ $errors->has('photo') ? ' is-invalid' : '' }}" name="photo" value="{{ old('photo') }}" type="file">
+                                </div>
+                                @if ($errors->has('photo'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('photo') }}</strong>
                                     </span>
                                 @endif
                             </div>

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', "Role List")
 
 @section('content')
     <div class="container-fluid mt-4">

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', "Product review")
 @section('content')
     <div class="container-fluid mt-4">
         <div class="row">

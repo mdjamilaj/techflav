@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductPlatform;
 use Illuminate\Http\Request;
 use App\Models\ProductType;
+use App\Models\ProductCategory;
 use File;
 
 class ProductController extends Controller
@@ -40,9 +42,27 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $last_product = Product::latest()->first();
+        if($last_product) $last_product_id = $last_product->id + 1;
+        else $last_product_id = 1;
         $product_types = ProductType::all();
-        return view('products.create', compact('product_types'));
+        $product_categories = ProductCategory::all();
+        $product_platforms = ProductPlatform::all();
+        $licence_key = $last_product_id.'-'.$this->generateRandomString(20);
+        return view('products.create', compact('product_types','product_categories', 'product_platforms', 'licence_key'));
     }
+
+
+    public function generateRandomString($length = 25) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -57,6 +77,9 @@ class ProductController extends Controller
             'details' => 'required',
             'product_price_type' => 'required',
             'product_type_id' => 'required',
+            'product_category_id' => 'required',
+            'product_platform_id' => 'required',
+            'file_included' => 'required',
             'licence_key' => 'required|string|unique:products,licence_key,NULL,id,deleted_at,NULL',
             'cover_photo' => 'required',
             'cover_photo.*' => 'mimes:jpeg,jpg,png,webp',
@@ -74,6 +97,8 @@ class ProductController extends Controller
         unset($input['cover_photo']);
         unset($input['product']);
         unset($input['product_and_documentation']);
+        if ($input['is_discount_percentage'] == true)  $input['is_discount_percentage'] = 1;
+        else $input['is_discount_percentage'] = 0;
         $product = Product::create($input);
 
         if ($request->hasFile('cover_photo')) {
@@ -119,7 +144,9 @@ class ProductController extends Controller
     {
         $data = $product;
         $product_types = ProductType::all();
-        return view('products.edit', compact('data', 'product_types'));
+        $product_categories = ProductCategory::all();
+        $product_platforms = ProductPlatform::all();
+        return view('products.edit', compact('data', 'product_types', 'product_categories', 'product_platforms'));
     }
 
     /**
@@ -134,6 +161,9 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'details' => 'required',
+            'product_category_id' => 'required',
+            'product_platform_id' => 'required',
+            'file_included' => 'required',
             'licence_key' => 'required|string|unique:products,licence_key,NULL,id,deleted_at,NULL'.$product->id,
             'price' => 'required|numeric',
             'discount_price' => 'nullable|numeric',
@@ -145,6 +175,8 @@ class ProductController extends Controller
         unset($input['cover_photo']);
         unset($input['product']);
         unset($input['product_and_documentation']);
+        if ($input['is_discount_percentage'] == true)  $input['is_discount_percentage'] = 1;
+        else $input['is_discount_percentage'] = 0;
         $product->update($input);
         if ($request->hasFile('cover_photo')) {
             foreach ($request->file('cover_photo') as $attachment) {

@@ -1,7 +1,7 @@
 @extends('layouts.app')
-
+@section('title', 'Dashboard')
 @section('content')
-    @include('layouts.headers.cards')
+    @include('layouts.headers.cards', ['data' => $data])
     
     <div class="container-fluid">
         <div class="row">
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-5">
+        {{-- <div class="row mt-5">
             <div class="col-xl-8 mb-5 mb-xl-0">
                 <div class="card shadow">
                     <div class="card-header border-0">
@@ -277,9 +277,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        {{-- @include('layouts.footers.auth') --}}
+        </div> --}}
         <div class="mt-5"></div>
     </div>
 @endsection

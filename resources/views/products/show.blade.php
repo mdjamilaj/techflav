@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', "Single Prodcut")
 
 @section('content')
     <div class="container-fluid mt-4">
