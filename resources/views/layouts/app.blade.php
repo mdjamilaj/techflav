@@ -74,7 +74,7 @@
             var matching = $('.nav-link').filter(function() {
                 return $(this).attr('href') == currnet
             });
-            matching.addClass('bg-primary-20 text-white');
+            matching.addClass('bg-primary-20');
 
 
             var isactive = $(".show-test").find('.nav-link').filter(function() {
