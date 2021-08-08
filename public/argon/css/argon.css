@@ -18640,6 +18640,11 @@ textarea[resize='horizontal']
 {
     color: #fff;
 }
+.bg-primary-20{
+    background-color: #5e72e44a !important;
+    border-right: 4px solid #5e72e4;
+    color: #5e72e4 !important;
+}
 
 .modal-success .close > span:not(.sr-only)
 {

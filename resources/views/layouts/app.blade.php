@@ -66,6 +66,27 @@
             }
         });
     </script>
+    <script>
+        // Toggle Search Form
+        $(document).ready(function() {
+
+            var currnet = "{{ url()->current() }}";
+            var matching = $('.nav-link').filter(function() {
+                return $(this).attr('href') == currnet
+            });
+            matching.addClass('bg-primary-20 text-white');
+
+
+            var isactive = $(".show-test").find('.nav-link').filter(function() {
+                return $(this).attr('href') == currnet
+            });
+
+            isactive.closest(".show-test").addClass('show');
+            var show = isactive.closest(".show-test").attr('id');
+            $("[data-value=" + show + "]").attr('aria-expanded', 'true');
+
+        });
+    </script>
 </body>
 
 </html>

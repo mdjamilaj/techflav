@@ -95,7 +95,7 @@
                         {{ __('Admin management') }}
                     </a>
 
-                    <div class="collapse" id="navbar-examples">
+                    <div class="collapse show-test" id="navbar-examples">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('profile.edit') }}">
@@ -124,7 +124,7 @@
                         Product
                     </a>
 
-                    <div class="collapse" id="navbar-examples1">
+                    <div class="collapse show-test" id="navbar-examples1">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('products.index') }}">
