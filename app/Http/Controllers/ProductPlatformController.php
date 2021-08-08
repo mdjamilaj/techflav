@@ -34,7 +34,7 @@ class ProductPlatformController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'details' => 'required',
         ]);
