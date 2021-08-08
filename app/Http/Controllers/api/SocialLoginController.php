@@ -27,7 +27,7 @@ class SocialLoginController extends Controller
         try {
             $serviceUser = Socialite::driver($service)->user();
         } catch (\Exception $e) {
-            return redirect(env('CLIENT_BASE_URL') . '/social-callback?error=Unable to login using ' . $service . '. Please try again' . '&origin=login');
+            return redirect(env('CLIENT_BASE_URL') . '/auth/social-callback?error=Unable to login using ' . $service . '. Please try again' . '&origin=login');
         }
 
         // if ((env('RETRIEVE_UNVERIFIED_SOCIAL_EMAIL') == 0) && ($service != 'google')) {
