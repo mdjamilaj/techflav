@@ -6,6 +6,7 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\CommonController;
 use App\Http\Controllers\api\SiteController;
 use App\Http\Controllers\api\SocialLoginController;
+use App\Http\Controllers\api\PublicApiController;
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
@@ -47,3 +48,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::get('/countries', [SiteController::class, 'countries'])->name('countries');
 Route::get('/country/states/{id}', [SiteController::class, 'countryState'])->name('country_state');
 /*****   End site common route   ****/ 
+
+
+Route::group(['prefix' => '/public'], function() {
+    /*****   Frontend public api   ****/ 
+    Route::post('/product/filter', [PublicApiController::class, 'productFilter'])->name('productFilter');
+    Route::post('/product-type', [PublicApiController::class, 'productType'])->name('product-type');
+    Route::post('/product-category', [PublicApiController::class, 'productCategory'])->name('product-category');
+    Route::post('/product-platform', [PublicApiController::class, 'productPlatform'])->name('product-platform');
+    /*****   End frontend public api   ****/ 
+});
