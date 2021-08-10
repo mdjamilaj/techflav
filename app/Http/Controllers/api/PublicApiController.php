@@ -8,7 +8,7 @@ use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\ProductCategory;
 use App\Models\ProductPlatform;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductPublicResource;
 use App\Http\Resources\ProductTypeResource;
 use App\Http\Resources\ProductCategoryResource;
 
@@ -32,7 +32,7 @@ class PublicApiController extends Controller
         if ($request->filled('productSearchType')) {
             if ($request->productSearchType == 'top_sale') {
                 $filterArraySearchType[] = ['is_topsale', '=', 1];
-            }elseif ($request->productSearchType == 'featured') {
+            } elseif ($request->productSearchType == 'featured') {
                 $filterArraySearchType[] = ['is_featured', '=', 1];
             }
         }
@@ -47,7 +47,17 @@ class PublicApiController extends Controller
             ->paginate($perPage, ['*'], 'page', $page);
 
         // return $this->sendResponse($products, "Data fetch successfully", 200);
-        return ProductResource::collection($products);
+        return ProductPublicResource::collection($products);
+    }
+
+    public function productGetByIds(Request $request)
+    {
+        $products = Product::whereIn('id', $request->ids)
+            ->with('media', 'product_type', 'product_category', 'product_platform', 'favourite', 'reviews')
+            ->withCount('reviews')
+            ->latest()
+            ->get();
+        return ProductPublicResource::collection($products);
     }
 
     public function productType()
