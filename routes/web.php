@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductPlatformController;
+use App\Http\Controllers\ContactController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
+	Route::resource('contact', ContactController::class);
     Route::resource('productTypes', ProductTypeController::class);
 	Route::resource('productCategory', ProductCategoryController::class);
 	Route::resource('productPlatform', ProductPlatformController::class);

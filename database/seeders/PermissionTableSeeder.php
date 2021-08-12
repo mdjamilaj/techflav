@@ -35,6 +35,7 @@ class PermissionTableSeeder extends Seeder
            'productPlatform-create',
            'productPlatform-edit',
            'productPlatform-delete',
+           'contact-list',
            'review-list',
            'review-create',
            'review-edit',

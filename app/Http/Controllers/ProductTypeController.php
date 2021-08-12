@@ -23,9 +23,9 @@ class ProductTypeController extends Controller
 
     public function index()
     {
-        $data = ProductType::with('media')->latest()->paginate(5);
+        $data = ProductType::with('media')->latest()->paginate(10);
         return view('productTypes.index', compact('data'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     public function create()

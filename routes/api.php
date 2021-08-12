@@ -53,9 +53,11 @@ Route::get('/country/states/{id}', [SiteController::class, 'countryState'])->nam
 Route::group(['prefix' => '/public'], function() {
     /*****   Frontend public api   ****/ 
     Route::post('/product/filter', [PublicApiController::class, 'productFilter'])->name('productFilter');
+    Route::get('/product/type/details/{id}', [PublicApiController::class, 'productTypeDetails'])->name('productTypeDetails');
     Route::post('/product/get/by/ids', [PublicApiController::class, 'productGetByIds'])->name('productGetByIds');
     Route::post('/product-type', [PublicApiController::class, 'productType'])->name('product-type');
     Route::post('/product-category', [PublicApiController::class, 'productCategory'])->name('product-category');
     Route::post('/product-platform', [PublicApiController::class, 'productPlatform'])->name('product-platform');
+    Route::post('/contact', [PublicApiController::class, 'contact'])->name('contact');
     /*****   End frontend public api   ****/ 
 });

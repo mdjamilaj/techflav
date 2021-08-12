@@ -22,9 +22,9 @@ class ProductCategoryController extends Controller
 
     public function index()
     {
-        $data = ProductCategory::with('media')->latest()->paginate(5);
+        $data = ProductCategory::with('media')->latest()->paginate(10);
         return view('productCategory.index', compact('data'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     public function create()

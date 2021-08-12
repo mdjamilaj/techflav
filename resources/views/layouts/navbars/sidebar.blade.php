@@ -102,21 +102,25 @@
                                     {{ __('User profile') }}
                                 </a>
                             </li>
+                            @can('user-list')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.index') }}">
                                     {{ __('User Management') }}
                                 </a>
                             </li>
+                            @endcan
+                            @can('role-list')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('roles.index') }}">
                                     {{ __('Roles') }}
                                 </a>
                             </li>
+                            @endcan
                         </ul>
                     </div>
                 </li>
 
-
+                @can('product-list')
                 <li class="nav-item">
                     <a class="nav-link" href="#navbar-examples1" data-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="navbar-examples1">
@@ -126,49 +130,47 @@
 
                     <div class="collapse show-test" id="navbar-examples1">
                         <ul class="nav nav-sm flex-column">
+                            @can('product-list')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('products.index') }}">
                                     <i class="fab fa-product-hunt text-primary"></i> Product List
                                 </a>
                             </li>
+                            @endcan
+                            @can('productType-list')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('productTypes.index') }}">
                                     <i class="fab fa-product-hunt text-primary"></i> Product Types
                                 </a>
                             </li>
+                            @endcan
+                            @can('productCategory-list')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('productCategory.index') }}">
                                     <i class="fas fa-bars text-primary"></i> Product Category
                                 </a>
                             </li>
+                            @endcan
+                            @can('productPlatform-list')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('productPlatform.index') }}">
                                     <i class="fab fa-buromobelexperte text-primary"></i> Product Platform
                                 </a>
                             </li>
+                            @endcan
                         </ul>
                     </div>
                 </li>
+                @endcan
+
+                @can('contact-list')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('contact.index') }}">
+                        <i class="far fa-comment-alt text-primary"></i> {{ __('Contact') }}
+                    </a>
+                </li>
+                @endcan
             </ul>
-            {{-- <hr class="my-3">
-            <h6 class="navbar-heading text-muted">Documentation</h6>
-            <ul class="navbar-nav mb-md-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/getting-started/overview.html">
-                        <i class="ni ni-spaceship"></i> Getting started
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/foundation/colors.html">
-                        <i class="ni ni-palette"></i> Foundation
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/components/alerts.html">
-                        <i class="ni ni-ui-04"></i> Components
-                    </a>
-                </li>
-            </ul> --}}
         </div>
     </div>
 </nav>

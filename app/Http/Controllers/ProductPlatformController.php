@@ -22,9 +22,9 @@ class ProductPlatformController extends Controller
 
     public function index()
     {
-        $data = ProductPlatform::latest()->paginate(5);
+        $data = ProductPlatform::latest()->paginate(10);
         return view('productPlatform.index', compact('data'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     public function create()
