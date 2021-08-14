@@ -15,11 +15,13 @@ use App\Http\Resources\ProductCategoryResource;
 use App\Rules\Recaptcha;
 use PHPUnit\Framework\Constraint\Count;
 
+
+
 class PublicApiController extends Controller
 {
     public function productFilter(Request $request)
     {
-        if ($request->filled('searchText')) $perPage = $request->perPage;
+        if ($request->filled('perPage')) $perPage = $request->perPage;
         else $perPage = 8;
 
         if ($request->filled('page')) $page = $request->page;
@@ -37,6 +39,8 @@ class PublicApiController extends Controller
                 $filterArraySearchType[] = ['is_topsale', '=', 1];
             } elseif ($request->productSearchType == 'featured') {
                 $filterArraySearchType[] = ['is_featured', '=', 1];
+            } elseif ($request->productSearchType == 'bundle') {
+                $filterArraySearchType[] = ['is_bundle', '=', 1];
             }
         }
 
@@ -64,6 +68,24 @@ class PublicApiController extends Controller
 
         // return $this->sendResponse($products, "Data fetch successfully", 200);
         return ProductPublicResource::collection($products);
+    }
+
+    public function productGetLetestBundle()
+    {
+        $products = Product::with('media', 'product_type', 'product_category', 'product_platform', 'favourite', 'reviews')
+            ->withCount('reviews')
+            ->latest()
+            ->first();
+        return ProductPublicResource::make($products);
+    }
+
+    public function productDetails($id)
+    {
+        $product = Product::with('media', 'product_type', 'product_category', 'product_platform', 'favourite', 'reviews')
+            ->withCount('reviews')
+            ->latest()
+            ->findOrFail($id);
+        return ProductTypeResource::make($product);
     }
 
     public function productGetByIds(Request $request)

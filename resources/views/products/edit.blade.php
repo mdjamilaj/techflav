@@ -33,6 +33,19 @@
                                     </span>
                                 @endif
                             </div>
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="name_parent">
+                                <div class="form-group mb-1">
+                                    <label>Name:</label>
+                                    <input placeholder="Name"
+                                        class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
+                                        value="{{ old('name') ? old('name') : $data->name }}" type="text">
+                                </div>
+                                @if ($errors->has('name'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                             <div class="col-xs-12 col-sm-6 col-md-2 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Product Type:</label>
@@ -53,30 +66,38 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-2 mb-3">
                                 <div class="form-group mb-1">
-                                    <label>Product Price Type:</label>
-                                    <select onchange="changeStyle(this.value)" placeholder="product_type"
-                                    class="form-control{{ $errors->has('product_price_type') ? ' is-invalid' : '' }}" name="product_price_type"
-                                     type="text">
-                                    <option  <?php if ($data->product_price_type == 'free') echo "selected"; ?> value="free">Free</option>
-                                    <option <?php if ($data->product_price_type == 'paid') echo "selected"; ?> value="paid">Paid</option>
+                                    <label>Product Category:</label>
+                                    <select placeholder="product_category_id"
+                                    class="form-control{{ $errors->has('product_category_id') ? ' is-invalid' : '' }}" name="product_category_id"
+                                    value="{{ old('product_category_id') }}" type="text">
+                                    <option value="">Select Once</option>
+                                    @foreach ($product_categories as $item)
+                                    <option {{ $item->id == $data->id ? "selected" : ''}} value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
                                 </select>
                                 </div>
-                                @if ($errors->has('product_price_type'))
+                                @if ($errors->has('product_category_id'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('product_price_type') }}</strong>
+                                        <strong>{{ $errors->first('product_category_id') }}</strong>
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="name_parent">
+
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3">
                                 <div class="form-group mb-1">
-                                    <label>Name:</label>
-                                    <input placeholder="Name"
-                                        class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
-                                        value="{{ old('name') ? old('name') : $data->name }}" type="text">
+                                    <label>Product Platform:</label>
+                                    <select placeholder="product_platform_id"
+                                    class="form-control{{ $errors->has('product_platform_id') ? ' is-invalid' : '' }}" name="product_platform_id"
+                                    value="{{ old('product_platform_id') }}" type="text">
+                                    <option value="">Select Once</option>
+                                    @foreach ($product_platforms as $item)
+                                    <option {{ $item->id == $data->id ? "selected" : ''}} value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
                                 </div>
-                                @if ($errors->has('name'))
+                                @if ($errors->has('product_platform_id'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('product_platform_id') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -92,6 +113,35 @@
                                 @if ($errors->has('licence_key'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                         <strong>{{ $errors->first('licence_key') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3">
+                                <div class="form-group mb-1">
+                                    <label>File Included:</label>
+                                    <input placeholder="File Included "
+                                        class="form-control{{ $errors->has('file_included') ? ' is-invalid' : '' }}" name="file_included"
+                                        value="{{ old('file_included') ? old('file_included') : $data->file_included }}" type="text">
+                                </div>
+                                @if ($errors->has('file_included'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('file_included') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="product_price_type_parent">
+                                <div class="form-group mb-1">
+                                    <label>Product Price Type:</label>
+                                    <select onchange="changeStyle(this.value)" placeholder="product_type"
+                                    class="form-control{{ $errors->has('product_price_type') ? ' is-invalid' : '' }}" name="product_price_type"
+                                     type="text">
+                                    <option  <?php if ($data->product_price_type == 'free') echo "selected"; ?> value="free">Free</option>
+                                    <option <?php if ($data->product_price_type == 'paid') echo "selected"; ?> value="paid">Paid</option>
+                                </select>
+                                </div>
+                                @if ($errors->has('product_price_type'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('product_price_type') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -125,60 +175,9 @@
                             </div>
 
 
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
-                                <div class="form-group mb-1">
-                                    <label>Product Category:</label>
-                                    <select placeholder="product_category_id"
-                                    class="form-control{{ $errors->has('product_category_id') ? ' is-invalid' : '' }}" name="product_category_id"
-                                    value="{{ old('product_category_id') }}" type="text">
-                                    <option value="">Select Once</option>
-                                    @foreach ($product_categories as $item)
-                                    <option {{ $item->id == $data->id ? "selected" : ''}} value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
-                                </div>
-                                @if ($errors->has('product_category_id'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('product_category_id') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                            
 
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
-                                <div class="form-group mb-1">
-                                    <label>Product Platform:</label>
-                                    <select placeholder="product_platform_id"
-                                    class="form-control{{ $errors->has('product_platform_id') ? ' is-invalid' : '' }}" name="product_platform_id"
-                                    value="{{ old('product_platform_id') }}" type="text">
-                                    <option value="">Select Once</option>
-                                    @foreach ($product_platforms as $item)
-                                    <option {{ $item->id == $data->id ? "selected" : ''}} value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
-                                </div>
-                                @if ($errors->has('product_platform_id'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('product_platform_id') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
-                                <div class="form-group mb-1">
-                                    <label>File Included:</label>
-                                    <input placeholder="File Included "
-                                        class="form-control{{ $errors->has('file_included') ? ' is-invalid' : '' }}" name="file_included"
-                                        value="{{ old('file_included') ? old('file_included') : $data->file_included }}" type="text">
-                                </div>
-                                @if ($errors->has('file_included'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('file_included') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="is_featured_parent">
                                 <div class="form-group mb-1">
                                     <label>Is Featured:</label>
                                     {{ $data->is_featured == 1 }}
@@ -196,7 +195,7 @@
                                 @endif
                             </div>
 
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="is_topsale_parent">
                                 <div class="form-group mb-1">
                                     <label>Is top sale:</label>
                                     <select placeholder="Is top sale"
@@ -213,9 +212,26 @@
                                 @endif
                             </div>
 
+                            <div class="col-xs-12 col-sm-6 col-md-2 mb-3" id="is_bundle_parent">
+                                <div class="form-group mb-1">
+                                    <label>Is bundle:</label>
+                                    <select placeholder="Is bundle"
+                                    class="form-control{{ $errors->has('is_bundle') ? ' is-invalid' : '' }}" name="is_bundle"
+                                    value="{{ old('is_bundle') }}" type="text">
+                                    <option <?php if ($data->is_bundle == 1) echo "selected"; ?> value="1">Yes</option>
+                                    <option <?php if ($data->is_bundle == 0) echo "selected"; ?> value="0">No</option>
+                                </select>
+                                </div>
+                                @if ($errors->has('is_bundle'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('is_bundle') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
 
 
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+
+                            <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Cover photo <sub>(Gallery multiple)</sub> :</label>
                                     <input placeholder="Cover photo " multiple
@@ -230,7 +246,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Product:</label>
                                     <input placeholder="Product "
@@ -244,7 +260,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-3 mb-3">
+                            <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
                                 <div class="form-group mb-1">
                                     <label>Product and documentation:</label>
                                     <input placeholder="Product and documentation "
@@ -286,15 +302,17 @@
             if (val == 'free') {
                 $("#discount_price_parent").addClass("d-none");
                 $("#price_parent").addClass("d-none");
-                $("#licence_key_parent").addClass("col-md-4");
-                $("#name_parent").addClass("col-md-4");
-            } else {
+                $("#is_featured_parent").addClass("col-md-3");
+                $("#is_topsale_parent").addClass("col-md-3");
+                $("#is_bundle_parent").addClass("col-md-3");
+                $("#product_price_type_parent").addClass("col-md-3");
+            }else{
                 $("#discount_price_parent").removeClass("d-none");
                 $("#price_parent").removeClass("d-none");
-                $("#licence_key_parent").addClass("col-md-2");
-                $("#name_parent").addClass("col-md-2");
-                $("#licence_key_parent").removeClass("col-md-4");
-                $("#name_parent").removeClass("col-md-4");
+                $("#is_featured_parent").removeClass("col-md-3");
+                $("#is_topsale_parent").removeClass("col-md-3");
+                $("#is_bundle_parent").removeClass("col-md-3");
+                $("#product_price_type_parent").removeClass("col-md-3");
             }
         }
     </script>

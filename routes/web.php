@@ -9,6 +9,8 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductPlatformController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\api\PaymentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,3 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('review/{id}/update/{product_id}', [ReviewController::class, 'update'])->name('review.update');
 	Route::delete('review/{id}/destroy/{product_id}', [ReviewController::class, 'destroy'])->name('review.destroy');
 });
+
+
+
+Route::get('/payment/charge', [PaymentController::class, 'charge'])->name('chargessss');

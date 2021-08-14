@@ -7,6 +7,7 @@ use App\Http\Controllers\api\CommonController;
 use App\Http\Controllers\api\SiteController;
 use App\Http\Controllers\api\SocialLoginController;
 use App\Http\Controllers\api\PublicApiController;
+use App\Http\Controllers\api\PaymentController;
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
@@ -42,6 +43,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     /******    Auth    ******/  
     Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change-password');
     /******    End auth    ******/  
+
+
+    /******    Payment     ******/  
+    Route::post('/payment/charge', [PaymentController::class, 'charge'])->name('charge');
+    
 });
 
 /*****   Site common route   ****/ 
@@ -53,6 +59,8 @@ Route::get('/country/states/{id}', [SiteController::class, 'countryState'])->nam
 Route::group(['prefix' => '/public'], function() {
     /*****   Frontend public api   ****/ 
     Route::post('/product/filter', [PublicApiController::class, 'productFilter'])->name('productFilter');
+    Route::get('/product/get/letest/bundle', [PublicApiController::class, 'productGetLetestBundle'])->name('productGetLetestBundle');
+    Route::get('/product/details/{id}', [PublicApiController::class, 'productDetails'])->name('productDetails');
     Route::get('/product/type/details/{id}', [PublicApiController::class, 'productTypeDetails'])->name('productTypeDetails');
     Route::post('/product/get/by/ids', [PublicApiController::class, 'productGetByIds'])->name('productGetByIds');
     Route::post('/product-type', [PublicApiController::class, 'productType'])->name('product-type');

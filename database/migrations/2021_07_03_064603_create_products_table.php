@@ -31,6 +31,7 @@ class CreateProductsTable extends Migration
             $table->text('file_included')->nullable();
             $table->boolean('is_featured');
             $table->boolean('is_topsale');
+            $table->boolean('is_bundle');
             $table->timestamps();
             $table->softDeletes();
         });
