@@ -82,10 +82,8 @@ class PublicApiController extends Controller
     public function productDetails($id)
     {
         $product = Product::with('media', 'product_type', 'product_category', 'product_platform', 'favourite', 'reviews')
-            ->withCount('reviews')
-            ->latest()
             ->findOrFail($id);
-        return ProductTypeResource::make($product);
+        return ProductPublicResource::make($product);
     }
 
     public function productGetByIds(Request $request)
