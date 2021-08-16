@@ -30,7 +30,7 @@ class CommonController extends Controller
 
         $products = Product::query()
             ->where($filterArrayTitle)
-            ->with('media', 'product_type')
+            ->with('media', 'product_type', 'reviews')
             ->latest()
             ->paginate($perPage, ['*'], 'page', $page);
 
