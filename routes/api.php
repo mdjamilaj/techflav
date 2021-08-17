@@ -67,5 +67,6 @@ Route::group(['prefix' => '/public'], function() {
     Route::post('/product-category', [PublicApiController::class, 'productCategory'])->name('product-category');
     Route::post('/product-platform', [PublicApiController::class, 'productPlatform'])->name('product-platform');
     Route::post('/contact', [PublicApiController::class, 'contact'])->name('contact');
+    Route::post('/faq', [PublicApiController::class, 'faq'])->name('faq');
     /*****   End frontend public api   ****/ 
 });

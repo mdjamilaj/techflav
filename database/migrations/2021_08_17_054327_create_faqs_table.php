@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductPlatformsTable extends Migration
+class CreateFaqsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateProductPlatformsTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_platforms', function (Blueprint $table) {
+        Schema::create('faqs', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug');
-            $table->text('details');
+            $table->string('question');
+            $table->text('answer');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +29,6 @@ class CreateProductPlatformsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_platforms');
+        Schema::dropIfExists('faqs');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProductPlatform;
+use Illuminate\Support\Str;
 
 class ProductPlatformController extends Controller
 {
@@ -40,6 +41,7 @@ class ProductPlatformController extends Controller
         ]);
 
         $input = $request->all();
+        $input['slug'] = Str::slug($input['name']);
         $productPlatform = ProductPlatform::create($input);
 
         return redirect()->route('productPlatform.index')
@@ -60,6 +62,7 @@ class ProductPlatformController extends Controller
         ]);
 
         $input = $request->all();
+        $input['slug'] = Str::slug($input['name']);
         $productPlatform->update($input);
         return redirect()->route('productPlatform.index')
             ->with('success', 'Product platform updated successfully');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductType;
+use Illuminate\Support\Str;
 
 class ProductTypeController extends Controller
 {
@@ -48,6 +49,7 @@ class ProductTypeController extends Controller
 
         $input = $request->all();
         unset($input['photo']);
+        $input['slug'] = Str::slug($input['name']);
         $productType = ProductType::create($input);
 
         if ($request->hasFile('photo')) {
@@ -79,6 +81,7 @@ class ProductTypeController extends Controller
 
         $input = $request->all();
         unset($input['photo']);
+        $input['slug'] = Str::slug($input['name']);
         $productType->update($input);
 
         if ($request->hasFile('photo')) {

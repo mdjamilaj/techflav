@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use Illuminate\Support\Str;
 
 class ProductCategoryController extends Controller
 {
@@ -47,6 +48,7 @@ class ProductCategoryController extends Controller
 
         $input = $request->all();
         unset($input['photo']);
+        $input['slug'] = Str::slug($input['name']);
         $productCategory = ProductCategory::create($input);
 
         if ($request->hasFile('photo')) {
@@ -78,6 +80,7 @@ class ProductCategoryController extends Controller
 
         $input = $request->all();
         unset($input['photo']);
+        $input['slug'] = Str::slug($input['name']);
         $productCategory->update($input);
 
         if ($request->hasFile('photo')) {

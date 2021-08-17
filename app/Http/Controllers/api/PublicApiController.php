@@ -9,16 +9,18 @@ use App\Models\Contact;
 use App\Models\ProductType;
 use App\Models\ProductCategory;
 use App\Models\ProductPlatform;
+use App\Models\Faq;
 use App\Http\Resources\ProductPublicResource;
 use App\Http\Resources\ProductTypeResource;
 use App\Http\Resources\ProductCategoryResource;
-use App\Rules\Recaptcha;
+use App\Rules\ValidRecaptcha;
 use PHPUnit\Framework\Constraint\Count;
 
 
 
 class PublicApiController extends Controller
 {
+
     public function productFilter(Request $request)
     {
         if ($request->filled('perPage')) $perPage = $request->perPage;
@@ -119,14 +121,21 @@ class PublicApiController extends Controller
         $productPlatform = ProductPlatform::latest()->get();
         return $this->sendResponse($productPlatform, "Data fetch successfully", 200);
     }
-    public function contact(Request $request, Recaptcha $recaptcha)
+    
+    public function faq()
+    {
+        $faq = Faq::latest()->get();
+        return $this->sendResponse($faq, "Data fetch successfully", 200);
+    }
+
+    public function contact(Request $request)
     {
         $request->validate([
             'first_name' => 'required|min:3|string|max:255',
             'email' => 'required|string|email|max:255',
             'message' => 'required|min:30|max:1000',
             'subject' => 'required',
-            'recaptcha' => ['required', $recaptcha],
+            'recaptcha' => ['required', new ValidRecaptcha]
         ]);
 
         try {

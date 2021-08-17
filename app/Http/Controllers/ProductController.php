@@ -7,7 +7,7 @@ use App\Models\ProductPlatform;
 use Illuminate\Http\Request;
 use App\Models\ProductType;
 use App\Models\ProductCategory;
-use File;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -99,6 +99,7 @@ class ProductController extends Controller
         unset($input['product_and_documentation']);
         if ($input['is_discount_percentage'] == true)  $input['is_discount_percentage'] = 1;
         else $input['is_discount_percentage'] = 0;
+        $input['slug'] = Str::slug($input['name']);
         $product = Product::create($input);
 
         if ($request->hasFile('cover_photo')) {
@@ -177,6 +178,7 @@ class ProductController extends Controller
         unset($input['product_and_documentation']);
         if ($input['is_discount_percentage'] == true)  $input['is_discount_percentage'] = 1;
         else $input['is_discount_percentage'] = 0;
+        $input['slug'] = Str::slug($input['name']);
         $product->update($input);
         if ($request->hasFile('cover_photo')) {
             foreach ($request->file('cover_photo') as $attachment) {

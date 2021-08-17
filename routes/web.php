@@ -9,6 +9,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductPlatformController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\api\PaymentController;
 
 /*
@@ -52,6 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('productTypes', ProductTypeController::class);
 	Route::resource('productCategory', ProductCategoryController::class);
 	Route::resource('productPlatform', ProductPlatformController::class);
+	Route::resource('faq', FaqController::class);
 
 	/***********  Review ************/
 	Route::get('review/index/{product_id}', [ReviewController::class, 'index'])->name('review.index');

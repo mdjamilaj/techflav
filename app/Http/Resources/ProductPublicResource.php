@@ -30,6 +30,7 @@ class ProductPublicResource extends JsonResource
         return [
             'id'                                  => $this->id,
             'name'                                => $this->name,
+            'slug'                                => $this->slug,
             'details'                             => $this->details,
             'product_price_type'                  => $this->product_price_type,
             'product_type'                        => $this->product_type,

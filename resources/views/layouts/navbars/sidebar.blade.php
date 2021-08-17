@@ -91,7 +91,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#navbar-examples" data-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="navbar-examples">
-                        <i class="fas fa-user text-primary"></i>
+                        <i class="far fa-user text-primary"></i>
                         {{ __('Admin management') }}
                     </a>
 
@@ -167,6 +167,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('contact.index') }}">
                         <i class="far fa-comment-alt text-primary"></i> {{ __('Contact') }}
+                    </a>
+                </li>
+                @endcan
+
+
+                @can('faq-list')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('faq.index') }}">
+                        <i class="far fa-question-circle text-primary"></i> {{ __('Faq') }}
                     </a>
                 </li>
                 @endcan
